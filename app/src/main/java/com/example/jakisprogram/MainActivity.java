@@ -1,8 +1,10 @@
 package com.example.jakisprogram;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Pair;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
@@ -10,13 +12,16 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+
 public class MainActivity extends AppCompatActivity {
     CalendarView kalendarz;
-    TextView tempo, progres;
+    TextView tempo, progres, wybranadata;
     EditText temposym;
     SeekBar tempsym2;
     ProgressBar progresssym;
-    Button zacznijsym;
+    Button zacznijsym, wybierzdate;
 
 
     @Override
@@ -31,6 +36,22 @@ temposym=findViewById(R.id.editTextNumber);
 tempsym2=findViewById(R.id.seekBar);
 progresssym=findViewById(R.id.progressBar);
 zacznijsym=findViewById(R.id.button);
+wybierzdate=findViewById(R.id.button);
+wybranadata=findViewById(R.id.textView3);
 
+        MaterialDatePicker datePicker=MaterialDatePicker.Builder.dateRangePicker().setSelection(Pair.create(MaterialDatePicker.thisMonthInUtcMilliseconds(),MaterialDatePicker.thisMonthInUtcMilliseconds())).build();
+
+        wybierzdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                datePicker.show(getSupportFragmentManager(),"Material_Range");
+                datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
+                    @Override
+                    public void onPositiveButtonClick(Object selection) {
+                        wybranadata.setText(datePicker.getHeaderText());
+                    }
+                });
+            }
+        });
     }
 }
